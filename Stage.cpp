@@ -1,28 +1,40 @@
-#include <Stage.h>
+#include "Stage.h"
 
-Stage::Stage(int width, int height, string stageData)
+Stage::Stage(int width, int height, vector<string> stageData)
 {
   stageWidth = width;
   stageHeight = height;
+
+  StageInfoVector.resize(height); 
+  for (int i = 0 ; i < height; i++)
+  {
+    StageInfoVector[i].resize(width);
+  }
 
   for (int i = 0 ; i < height; i++)
   {
     for (int j = 0; j < width; j++)
     {
-      string data = stageData[i + j * i];
+      string data = stageData[j + j * i];
       if (data == "#")
       {
-        StageInfoVector[i].push_back(data);
+        StageInfoVector[i][j] = data;
       }
       else if (data == ".")
       {
-        StageInfoVector[i].push_back(data);
+        StageInfoVector[i][j] = data;
         Goals.push_back(Goal(i, j));
       }
       else
       {
-        StageInfoVector[i].push_back(" ");
+        StageInfoVector[i][j] = ' ';
       }
     }
   }
 }
+
+string Stage::GetMassSituation(int width, int height)
+{
+  return StageInfoVector[height][width];
+}
+
