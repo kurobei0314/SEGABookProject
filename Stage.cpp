@@ -1,4 +1,5 @@
 #include "Stage.h"
+#include "Const.h"
 
 Stage::Stage(int width, int height, vector<string> stageData)
 {
@@ -15,26 +16,26 @@ Stage::Stage(int width, int height, vector<string> stageData)
   {
     for (int j = 0; j < width; j++)
     {
-      string data = stageData[j + width * i];
-      if (data == "#")
+      char data = stageData[j + width * i][0];
+      if (data == Const::WallCharacter)
       {
 
         StageInfoVector[i][j] = data;
       }
-      else if (data == ".")
+      else if (data == Const::GoalCharacter)
       {
         StageInfoVector[i][j] = data;
         Goals.push_back(Goal(j, i));
       }
       else
       {
-        StageInfoVector[i][j] = ' ';
+        StageInfoVector[i][j] = Const::EmptyCharacter;
       }
     }
   }
 }
 
-string Stage::GetMassSituation(int width, int height)
+char Stage::GetMassSituation(int width, int height)
 {
   return StageInfoVector[height][width];
 }

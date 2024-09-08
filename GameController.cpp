@@ -20,13 +20,13 @@ void GameController::LoadGameData()
   {
     for (int j = 0; j < StageWidth; j++)
     {
-      string data = StageData[j + StageWidth * i];
-      if (data == "P") 
+      char data = StageData[j + StageWidth * i][0];
+      if (data == Const::PlayerCharacter) 
       {
         player = new Player(j, i);
         continue;
       }
-      if (data == "o")
+      if (data == Const::LuggageCharacter)
       {
         luggages->AddLuggage(new Luggage(j, i));
         continue;
@@ -39,10 +39,10 @@ bool GameController::IsCorrectInputKey(char key)
 {
   switch(key)
   {
-    case 'w':
-    case 's':
-    case 'd':
-    case 'a':
+    case Const::InputUpKey:
+    case Const::InputDownKey:
+    case Const::InputRightKey:
+    case Const::InputLeftKey:
       return true;
     default:
       return false;
@@ -70,12 +70,12 @@ void GameController::DisplayCurrentSituation()
     {
       if (player->IsPlayerPosition(j, i))
       {
-        cout << "P" << " ";
+        cout << Const::PlayerCharacter << " ";
         continue;
       }
       if (luggages->IsLuggagesPosition(j, i))
       {
-        cout << "c" << " ";
+        cout << Const::LuggageCharacter << " ";
         continue;
       }
       cout << stage->GetMassSituation(j, i) << " ";
@@ -90,14 +90,14 @@ bool GameController::MovablePlayer(vector<int> moveInput, vector<int> currentPla
   int y = moveInput[1];
   int playerPosX = currentPlayerPos[0];
   int playerPosY = currentPlayerPos[1];
-  string massSituation = stage->GetMassSituation(x + playerPosX, y + playerPosY);
-  if (massSituation == "#") return false;
+  char massSituation = stage->GetMassSituation(x + playerPosX, y + playerPosY);
+  if (massSituation == Const::WallCharacter) return false;
   if (!luggages->IsLuggagesPosition(x + playerPosX, y + playerPosY)) return true;
   
   x *= 2;
   y *= 2;
   massSituation = stage->GetMassSituation(x + playerPosX, y + playerPosY);
-  if (massSituation == "#") return false;
+  if (massSituation == Const::WallCharacter) return false;
   if (luggages->IsLuggagesPosition(x + playerPosX, y + playerPosY)) return false;
   return true;
 }
@@ -108,7 +108,7 @@ void GameController::UpdateData(vector<int> moveInput, vector<int> currentPlayer
   int y = moveInput[1];
   int playerPosX = currentPlayerPos[0];
   int playerPosY = currentPlayerPos[1];
-  string massSituation = stage->GetMassSituation(x + playerPosX, y + playerPosY);
+  char massSituation = stage->GetMassSituation(x + playerPosX, y + playerPosY);
   if (!luggages->IsLuggagesPosition(x + playerPosX, y + playerPosY))
   {
     player->UpdatePosition(playerPosX + x, playerPosY + y);
@@ -126,19 +126,19 @@ void GameController::UpdateSituation(char inputKey)
   int y = 0;
   switch(inputKey)
   {
-    case 'w':
+    case Const::InputUpKey:
       x = 0;
       y = -1;
       break;
-    case 'a':
+    case Const::InputLeftKey:
       x = -1;
       y = 0;
       break;
-    case 's':
+    case Const::InputDownKey:
       x = 0;
       y = 1;
       break;
-    case 'd':
+    case Const::InputRightKey:
       x = 1;
       y = 0;
       break;
@@ -151,7 +151,6 @@ void GameController::UpdateSituation(char inputKey)
 
 bool GameController::IsClear()
 {
-
   if (stage->IsMatchAllGoal(luggages->GetLuggagesPositions())) return true;
   return false;
 }
@@ -163,8 +162,7 @@ int main ()
   while(true)
   {
     GameController.DisplayCurrentSituation();
-    char inputKey = GameController.InputKey();
-    GameController.UpdateSituation(inputKey);
+    GameController.UpdateSituation(GameController.InputKey());
     if (GameController.IsClear()){
       GameController.DisplayCurrentSituation();
       cout << "Congratulations!!!!!!" << endl;

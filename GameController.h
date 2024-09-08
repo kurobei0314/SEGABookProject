@@ -1,20 +1,23 @@
 #include <iostream>
+#include <vector>
+#include <string>
 #include "Stage.h"
 #include "Player.h"
 #include "Luggages.h"
-#include <vector>
-#include <string>
+#include "Const.h"
 
 class GameController
 {
   public:
     void LoadGameData();
-    char InputKey();
-    bool IsClear();
     void DisplayCurrentSituation();
+    void UpdateSituation(char inputKey);
+    bool IsClear();
+    char InputKey();
+
+  private:
     bool IsCorrectInputKey(char key);
     bool MovablePlayer(vector<int> moveInput, vector<int> currentPlayerPos);
-    void UpdateSituation(char inputKey);
     void UpdateData(vector<int> moveInput, vector<int> currentPlayerPos);
     Stage* stage;
     Player* player;
