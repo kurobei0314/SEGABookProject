@@ -2,6 +2,18 @@
 
 using namespace std;
 
+GameController::GameController()
+{
+  LoadGameData();
+}
+
+GameController::~GameController()
+{
+  delete stage;
+  delete player;
+  delete luggages;
+}
+
 void GameController::LoadGameData()
 {
   int StageWidth = 8;
@@ -157,16 +169,16 @@ bool GameController::IsClear()
 
 int main ()
 {
-  GameController GameController;
-  GameController.LoadGameData();
+  GameController* controller = new GameController();
   while(true)
   {
-    GameController.DisplayCurrentSituation();
-    GameController.UpdateSituation(GameController.InputKey());
-    if (GameController.IsClear()){
-      GameController.DisplayCurrentSituation();
+    controller->DisplayCurrentSituation();
+    controller->UpdateSituation(controller->InputKey());
+    if (controller->IsClear()){
+      controller->DisplayCurrentSituation();
       cout << "Congratulations!!!!!!" << endl;
       break;
     }
   }
+  delete controller;
 }

@@ -6,7 +6,8 @@ Goal::Goal(int x, int y)
   pos_y = y;
 }
 
-Goal::~Goal(){
+Goal::~Goal()
+{
 
 }
 

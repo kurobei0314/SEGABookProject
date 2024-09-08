@@ -34,6 +34,13 @@ Stage::Stage(int width, int height, vector<string> stageData)
     }
   }
 }
+Stage::~Stage()
+{
+  for (int i = 0; i < Goals.size() ; i++)
+  {
+    Goals[i].~Goal();
+  }
+}
 
 char Stage::GetMassSituation(int width, int height)
 {

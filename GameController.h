@@ -9,13 +9,15 @@
 class GameController
 {
   public:
-    void LoadGameData();
+    GameController();
+    ~GameController();
     void DisplayCurrentSituation();
     void UpdateSituation(char inputKey);
     bool IsClear();
     char InputKey();
 
   private:
+    void LoadGameData();
     bool IsCorrectInputKey(char key);
     bool MovablePlayer(vector<int> moveInput, vector<int> currentPlayerPos);
     void UpdateData(vector<int> moveInput, vector<int> currentPlayerPos);

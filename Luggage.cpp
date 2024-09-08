@@ -5,6 +5,11 @@ Luggage::Luggage(int x, int y)
   UpdatePosition(x, y);
 }
 
+Luggage::~Luggage()
+{
+  
+}
+
 int Luggage::GetPositionX()
 {
   return pos_x;

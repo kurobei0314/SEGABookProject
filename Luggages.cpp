@@ -6,7 +6,10 @@ Luggages::Luggages()
 }
 Luggages::~Luggages()
 {
-
+  for (int i = 0; i < currentLuggages.size(); i++)
+  {
+    delete(currentLuggages[i]);
+  }
 }
 
 void Luggages::AddLuggage(Luggage* luggage)

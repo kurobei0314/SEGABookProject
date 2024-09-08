@@ -6,6 +6,11 @@ Player::Player(int x, int y)
   UpdatePosition(x, y);
 }
 
+Player::~Player()
+{
+
+}
+
 int Player::GetPositionX()
 {
   return pos_x;
