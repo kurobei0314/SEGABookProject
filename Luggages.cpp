@@ -31,14 +31,32 @@ bool Luggages::IsLuggagesPosition(int x, int y)
   return false;
 }
 
-void Luggages::UpdateLuggagesPosition(int x, int y)
+void Luggages::UpdateLuggagesPosition(vector<int> moveInput, vector<int> currentLuggagePos)
 {
+  int currentLuggagePosX = currentLuggagePos[0];
+  int currentLuggagePosY = currentLuggagePos[1];
+  int moveInputX = moveInput[0];
+  int moveInputY = moveInput[1];
   for (int k = 0; k < GetSize(); k++)
   {
-    if (currentLuggages[k]->IsLuggagePosition(x, y))
+    if (currentLuggages[k]->IsLuggagePosition(currentLuggagePosX, currentLuggagePosY))
     {
-      currentLuggages[k]->UpdatePosition(x, y);
+      currentLuggages[k]->UpdatePosition(currentLuggagePosX + moveInputX, currentLuggagePosY + moveInputY);
       return;
     }
   }
+}
+
+vector<vector<int>> Luggages::GetLuggagesPositions()
+{
+  vector<vector<int>> luggagesPositions;
+  int num = GetSize();
+  luggagesPositions.resize(num); 
+  for (int i = 0 ; i < num; i++)
+  {
+    luggagesPositions[i].resize(2);
+    luggagesPositions[i][0] = currentLuggages[i]->GetPositionX();
+    luggagesPositions[i][1] = currentLuggages[i]->GetPositionY();
+  }
+  return luggagesPositions;
 }

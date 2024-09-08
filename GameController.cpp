@@ -115,8 +115,8 @@ void GameController::UpdateData(vector<int> moveInput, vector<int> currentPlayer
   }
   else
   {
-    luggages->UpdateLuggagesPosition(playerPosX + x, playerPosY + y);
-    player->UpdatePosition(playerPosX + x * 2, playerPosY + y * 2);
+    luggages->UpdateLuggagesPosition(moveInput, {playerPosX + x, playerPosY + y});
+    player->UpdatePosition(playerPosX + x, playerPosY + y);
   }
 }
 
@@ -151,7 +151,9 @@ void GameController::UpdateSituation(char inputKey)
 
 bool GameController::IsClear()
 {
-  return true;
+
+  if (stage->IsMatchAllGoal(luggages->GetLuggagesPositions())) return true;
+  return false;
 }
 
 int main ()
@@ -165,6 +167,7 @@ int main ()
     GameController.UpdateSituation(inputKey);
     if (GameController.IsClear()){
       GameController.DisplayCurrentSituation();
+      cout << "Congratulations!!!!!!" << endl;
       break;
     }
   }

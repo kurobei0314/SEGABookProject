@@ -24,7 +24,7 @@ Stage::Stage(int width, int height, vector<string> stageData)
       else if (data == ".")
       {
         StageInfoVector[i][j] = data;
-        Goals.push_back(Goal(i, j));
+        Goals.push_back(Goal(j, i));
       }
       else
       {
@@ -47,4 +47,25 @@ int Stage::GetWidth()
 int Stage::GetHeight()
 {
   return stageHeight;
+}
+
+bool Stage::IsMatchAllGoal(vector<vector<int>> luggagePositions)
+{
+  int luggageNum = luggagePositions.size();
+  int goalNum = Goals.size();
+  int matchGoalPositionNum = 0;
+  for (int i = 0 ; i < luggageNum ; i++)
+  {
+    for (int j = 0; j < goalNum ; j++)
+    {
+      int x = luggagePositions[i][0];
+      int y = luggagePositions[i][1];
+      if (Goals[j].IsMatchGoalPosition(x, y))
+      {
+        matchGoalPositionNum++;
+        break;
+      }
+    }
+  }
+  return (matchGoalPositionNum == goalNum) ? true : false;
 }

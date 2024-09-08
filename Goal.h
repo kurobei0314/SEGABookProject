@@ -9,6 +9,7 @@ class Goal
     ~Goal();
     int GetPositionX();
     int GetPositionY();
+    bool IsMatchGoalPosition(int x, int y);
 
   private:
     int pos_x;

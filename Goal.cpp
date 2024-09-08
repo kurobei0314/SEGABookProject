@@ -19,3 +19,8 @@ int Goal::GetPositionY()
 {
   return pos_y;
 }
+
+bool Goal::IsMatchGoalPosition(int x, int y)
+{
+  return (x == pos_x && y == pos_y);
+}

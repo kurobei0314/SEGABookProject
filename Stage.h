@@ -13,6 +13,7 @@ class Stage
     vector< vector<string> > StageInfoVector;
     int GetWidth();
     int GetHeight();
+    bool IsMatchAllGoal(vector<vector<int>> luggagePositions);
 
   private:
     int stageWidth;

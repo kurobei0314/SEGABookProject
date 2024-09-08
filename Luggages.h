@@ -11,7 +11,8 @@ class Luggages
     void AddLuggage(Luggage* luggage);
     int GetSize();
     bool IsLuggagesPosition(int x, int y);
-    void UpdateLuggagesPosition(int x, int y);
+    void UpdateLuggagesPosition(vector<int> moveInput, vector<int> currentLuggagesPos);
+    vector<vector<int>> GetLuggagesPositions();
 
   private:
     vector<Luggage*> currentLuggages;
