@@ -6,6 +6,7 @@ class Luggage
     int GetPositionX();
     int GetPositionY();
     bool IsLuggagePosition(int x, int y);
+    void UpdatePosition(int x, int y);
 
   private:
     int pos_x;

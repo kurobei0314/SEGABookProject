@@ -8,6 +8,7 @@ class Player
     int GetPositionX();
     int GetPositionY();
     bool IsPlayerPosition(int x, int y);
+    void UpdatePosition(int x, int y);
 
   private:
     int pos_x;

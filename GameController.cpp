@@ -91,18 +91,92 @@ void GameController::DisplayCurrentSituation()
   }
 }
 
-bool GameController::IsMovePlayer(int moveInput)
+bool GameController::IsLuggagesPosition(int x, int y)
 {
+  for (int k = 0; k < luggages.size(); k++)
+  {
+    if (luggages[k]->IsLuggagePosition(x, y))
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
+void GameController::UpdateLuggagesPosition(int x, int y)
+{
+  for (int k = 0; k < luggages.size(); k++)
+  {
+    if (luggages[k]->IsLuggagePosition(x, y))
+    {
+      luggages[k]->UpdatePosition(x, y);
+      return;
+    }
+  }
+}
+
+bool GameController::MovablePlayer(vector<int> moveInput, vector<int> currentPlayerPos)
+{
+  int x = moveInput[0];
+  int y = moveInput[1];
+  int playerPosX = currentPlayerPos[0];
+  int playerPosY = currentPlayerPos[1];
+  string massSituation = stage->GetMassSituation(x + playerPosX, y + playerPosY);
+  if (massSituation == "#") return false;
+  if (!IsLuggagesPosition(x + playerPosX, y + playerPosY)) return true;
+  
+  x *= 2;
+  y *= 2;
+  massSituation = stage->GetMassSituation(x + playerPosX, y + playerPosY);
+  if (massSituation == "#") return false;
+  if (IsLuggagesPosition(x + playerPosX, y + playerPosY)) return false;
   return true;
+}
+
+void GameController::UpdateData(vector<int> moveInput, vector<int> currentPlayerPos)
+{
+  int x = moveInput[0];
+  int y = moveInput[1];
+  int playerPosX = currentPlayerPos[0];
+  int playerPosY = currentPlayerPos[1];
+  string massSituation = stage->GetMassSituation(x + playerPosX, y + playerPosY);
+  if (!IsLuggagesPosition(x + playerPosX, y + playerPosY))
+  {
+    player->UpdatePosition(playerPosX + x, playerPosY + y);
+  }
+  else
+  {
+    UpdateLuggagesPosition(playerPosX + x, playerPosY + y);
+    player->UpdatePosition(playerPosX + x * 2, playerPosY + y * 2);
+  }
 }
 
 void GameController::UpdateSituation(char inputKey)
 {
+  int x = 0;
+  int y = 0;
   switch(inputKey)
   {
     case 'w':
-      if (IsMovePlayer(1))
+      x = 0;
+      y = -1;
       break;
+    case 'a':
+      x = -1;
+      y = 0;
+      break;
+    case 's':
+      x = 0;
+      y = 1;
+      break;
+    case 'd':
+      x = 1;
+      y = 0;
+      break;
+  }
+  if (MovablePlayer({x, y}, {player->GetPositionX(), player->GetPositionY()}))
+  {
+    UpdateData({x, y}, {player->GetPositionX(), player->GetPositionY()});
   }
 }
 
