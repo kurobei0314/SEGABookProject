@@ -14,6 +14,7 @@ void GameController::LoadGameData()
     "#","#","#","#","#","#","#","#"};
 
   stage = new Stage(StageWidth, StageHeight, StageData);
+  luggages = new Luggages();
 
   for (int i = 0 ; i < StageHeight; i++)
   {
@@ -27,8 +28,7 @@ void GameController::LoadGameData()
       }
       if (data == "o")
       {
-        Luggage* luggage = new Luggage(j, i);
-        luggages.push_back(luggage);
+        luggages->AddLuggage(new Luggage(j, i));
         continue;
       }
     }
@@ -68,50 +68,19 @@ void GameController::DisplayCurrentSituation()
   {
     for (int j = 0; j < stage->GetWidth(); j++)
     {
-      string posSituation = "";
       if (player->IsPlayerPosition(j, i))
       {
         cout << "P" << " ";
-        posSituation = "P";
         continue;
       }
-      for (int k = 0; k < luggages.size(); k++)
+      if (luggages->IsLuggagesPosition(j, i))
       {
-        if (luggages[k]->IsLuggagePosition(j, i))
-        {
-          cout << "c" << " ";
-          posSituation = "c";
-          break;
-        }
+        cout << "c" << " ";
+        continue;
       }
-      if (posSituation != "") continue;
       cout << stage->GetMassSituation(j, i) << " ";
     }
     cout << endl;
-  }
-}
-
-bool GameController::IsLuggagesPosition(int x, int y)
-{
-  for (int k = 0; k < luggages.size(); k++)
-  {
-    if (luggages[k]->IsLuggagePosition(x, y))
-    {
-      return true;
-    }
-  }
-  return false;
-}
-
-void GameController::UpdateLuggagesPosition(int x, int y)
-{
-  for (int k = 0; k < luggages.size(); k++)
-  {
-    if (luggages[k]->IsLuggagePosition(x, y))
-    {
-      luggages[k]->UpdatePosition(x, y);
-      return;
-    }
   }
 }
 
@@ -123,13 +92,13 @@ bool GameController::MovablePlayer(vector<int> moveInput, vector<int> currentPla
   int playerPosY = currentPlayerPos[1];
   string massSituation = stage->GetMassSituation(x + playerPosX, y + playerPosY);
   if (massSituation == "#") return false;
-  if (!IsLuggagesPosition(x + playerPosX, y + playerPosY)) return true;
+  if (!luggages->IsLuggagesPosition(x + playerPosX, y + playerPosY)) return true;
   
   x *= 2;
   y *= 2;
   massSituation = stage->GetMassSituation(x + playerPosX, y + playerPosY);
   if (massSituation == "#") return false;
-  if (IsLuggagesPosition(x + playerPosX, y + playerPosY)) return false;
+  if (luggages->IsLuggagesPosition(x + playerPosX, y + playerPosY)) return false;
   return true;
 }
 
@@ -140,13 +109,13 @@ void GameController::UpdateData(vector<int> moveInput, vector<int> currentPlayer
   int playerPosX = currentPlayerPos[0];
   int playerPosY = currentPlayerPos[1];
   string massSituation = stage->GetMassSituation(x + playerPosX, y + playerPosY);
-  if (!IsLuggagesPosition(x + playerPosX, y + playerPosY))
+  if (!luggages->IsLuggagesPosition(x + playerPosX, y + playerPosY))
   {
     player->UpdatePosition(playerPosX + x, playerPosY + y);
   }
   else
   {
-    UpdateLuggagesPosition(playerPosX + x, playerPosY + y);
+    luggages->UpdateLuggagesPosition(playerPosX + x, playerPosY + y);
     player->UpdatePosition(playerPosX + x * 2, playerPosY + y * 2);
   }
 }
