@@ -7,5 +7,15 @@ Goal::Goal(int x, int y)
 }
 
 Goal::~Goal(){
-  
+
+}
+
+int Goal::GetPositionX()
+{
+  return pos_x;
+}
+
+int Goal::GetPositionY()
+{
+  return pos_y;
 }

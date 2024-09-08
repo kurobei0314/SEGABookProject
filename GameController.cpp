@@ -22,12 +22,12 @@ void GameController::LoadGameData()
       string data = StageData[j + StageWidth * i];
       if (data == "P") 
       {
-        player = new Player(StageWidth, StageHeight);
+        player = new Player(j, i);
         continue;
       }
       if (data == "o")
       {
-        Luggage* luggage = new Luggage(StageWidth, StageHeight);
+        Luggage* luggage = new Luggage(j, i);
         luggages.push_back(luggage);
         continue;
       }
@@ -51,7 +51,7 @@ bool GameController::IsCorrectInputKey(char key)
 
 char GameController::InputKey()
 {
-  cout << "入力してください(W: 上、A:左、D:右、S: 下)" << endl;
+  cout << "入力してください(w: 上、a:左、d:右、s: 下)" << endl;
   while (true)
   {
     char out;
@@ -68,6 +68,23 @@ void GameController::DisplayCurrentSituation()
   {
     for (int j = 0; j < stage->GetWidth(); j++)
     {
+      string posSituation = "";
+      if (player->IsPlayerPosition(j, i))
+      {
+        cout << "P" << " ";
+        posSituation = "P";
+        continue;
+      }
+      for (int k = 0; k < luggages.size(); k++)
+      {
+        if (luggages[k]->IsLuggagePosition(j, i))
+        {
+          cout << "c" << " ";
+          posSituation = "c";
+          break;
+        }
+      }
+      if (posSituation != "") continue;
       cout << stage->GetMassSituation(j, i) << " ";
     }
     cout << endl;
