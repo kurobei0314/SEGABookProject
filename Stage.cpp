@@ -15,9 +15,10 @@ Stage::Stage(int width, int height, vector<string> stageData)
   {
     for (int j = 0; j < width; j++)
     {
-      string data = stageData[j + j * i];
+      string data = stageData[j + width * i];
       if (data == "#")
       {
+
         StageInfoVector[i][j] = data;
       }
       else if (data == ".")
@@ -38,3 +39,12 @@ string Stage::GetMassSituation(int width, int height)
   return StageInfoVector[height][width];
 }
 
+int Stage::GetWidth()
+{
+  return stageWidth;
+}
+
+int Stage::GetHeight()
+{
+  return stageHeight;
+}

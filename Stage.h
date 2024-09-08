@@ -11,6 +11,8 @@ class Stage
     ~Stage();
     string GetMassSituation(int width, int height);
     vector< vector<string> > StageInfoVector;
+    int GetWidth();
+    int GetHeight();
 
   private:
     int stageWidth;

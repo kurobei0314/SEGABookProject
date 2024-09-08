@@ -7,13 +7,15 @@
 
 class GameController
 {
-  private:
+  public:
     void LoadGameData();
-    void InputKey();
+    char InputKey();
     bool IsClear();
     void DisplayCurrentSituation();
     bool IsCorrectInputKey(char key);
     bool IsMovePlayer(int moveInput);
+    void UpdateSituation(char inputKey);
+    Stage* stage;
     Player* player;
-    vector<Luggage*> Luggages;
+    vector<Luggage*> luggages;
 };

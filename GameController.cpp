@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void LoadGameData()
+void GameController::LoadGameData()
 {
   int StageWidth = 8;
   int StageHeight = 5;
@@ -13,15 +13,13 @@ void LoadGameData()
     "#"," "," "," "," "," "," ","#",
     "#","#","#","#","#","#","#","#"};
 
-  Stage* stage = new Stage(StageWidth, StageHeight, StageData);
-  Player* player;
-  vector<Luggage*> Luggages;
+  stage = new Stage(StageWidth, StageHeight, StageData);
 
   for (int i = 0 ; i < StageHeight; i++)
   {
     for (int j = 0; j < StageWidth; j++)
     {
-      string data = StageData[j + j * i];
+      string data = StageData[j + StageWidth * i];
       if (data == "P") 
       {
         player = new Player(StageWidth, StageHeight);
@@ -30,14 +28,14 @@ void LoadGameData()
       if (data == "o")
       {
         Luggage* luggage = new Luggage(StageWidth, StageHeight);
-        Luggages.push_back(luggage);
+        luggages.push_back(luggage);
         continue;
       }
     }
   }
 }
 
-bool IsCorrectInputKey(char key)
+bool GameController::IsCorrectInputKey(char key)
 {
   switch(key)
   {
@@ -51,7 +49,7 @@ bool IsCorrectInputKey(char key)
   }
 }
 
-char InputKey()
+char GameController::InputKey()
 {
   cout << "入力してください(W: 上、A:左、D:右、S: 下)" << endl;
   while (true)
@@ -64,17 +62,24 @@ char InputKey()
   }
 }
 
-void DisplayCurrentSituation()
+void GameController::DisplayCurrentSituation()
 {
-
+  for (int i = 0; i < stage->GetHeight(); i++)
+  {
+    for (int j = 0; j < stage->GetWidth(); j++)
+    {
+      cout << stage->GetMassSituation(j, i) << " ";
+    }
+    cout << endl;
+  }
 }
 
-bool IsMovePlayer(int moveInput)
+bool GameController::IsMovePlayer(int moveInput)
 {
   return true;
 }
 
-void UpdateSituation(char inputKey)
+void GameController::UpdateSituation(char inputKey)
 {
   switch(inputKey)
   {
@@ -84,19 +89,23 @@ void UpdateSituation(char inputKey)
   }
 }
 
-bool IsClear()
+bool GameController::IsClear()
 {
   return true;
 }
 
 int main ()
 {
-  LoadGameData();
+  GameController GameController;
+  GameController.LoadGameData();
   while(true)
   {
-    DisplayCurrentSituation();
-    char inputKey = InputKey();
-    UpdateSituation(inputKey);
-    if (IsClear()) break;
+    GameController.DisplayCurrentSituation();
+    char inputKey = GameController.InputKey();
+    GameController.UpdateSituation(inputKey);
+    if (GameController.IsClear()){
+      GameController.DisplayCurrentSituation();
+      break;
+    }
   }
 }
